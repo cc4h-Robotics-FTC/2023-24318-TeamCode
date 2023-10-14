@@ -18,7 +18,7 @@ public class Soldiers_Team_Code extends LinearOpMode {
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        hardwareMap.get(DcMotor.class, "Intake");
+       intake =  hardwareMap.get(DcMotor.class, "Intake");
 
         waitForStart();
 
