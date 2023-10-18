@@ -53,7 +53,7 @@ if (gamepad1.b || gamepad2.b) {
             }
 
             if (gamepad2.a) {
-                arm.setPower(-05);
+                arm.setPower(-1);
             } else{
                 arm.setPower(0);
             }
