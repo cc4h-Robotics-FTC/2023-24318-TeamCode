@@ -14,12 +14,14 @@ public class Soldiers_Team_Code extends LinearOpMode {
 
     private DcMotor intake = null;
     private Servo Airplane_Launcher = null;
+    private DcMotor arm = null;
     @Override
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        arm = hardwareMap.get(DcMotor.class,"arm");
        intake =  hardwareMap.get(DcMotor.class, "Intake");
        Airplane_Launcher = hardwareMap.get(Servo.class, "Airplane_Launcher");
         Airplane_Launcher.setPosition(90);
@@ -42,6 +44,18 @@ if (gamepad1.b || gamepad2.b) {
                 intake.setPower(1);
             } else {
                 intake.setPower(0);
+            }
+
+            if (gamepad2.y) {
+                arm.setPower(1);
+            } else{
+                    arm.setPower(0);
+            }
+
+            if (gamepad2.a) {
+                arm.setPower(-05);
+            } else{
+                arm.setPower(0);
             }
 
             Pose2d poseEstimate = drive.getPoseEstimate();
