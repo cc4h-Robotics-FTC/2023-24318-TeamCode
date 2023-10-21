@@ -46,13 +46,13 @@ if (gamepad1.b || gamepad2.b) {
                 intake.setPower(0);
             }
 
-            if (gamepad2.y) {
+            if (gamepad2.a) {
                 arm.setPower(1);
             } else{
                     arm.setPower(0);
             }
 
-            if (gamepad2.a) {
+            if (gamepad2.y) {
                 arm.setPower(-1);
             } else{
                 arm.setPower(0);
