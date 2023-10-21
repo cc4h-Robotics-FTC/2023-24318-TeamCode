@@ -52,7 +52,7 @@ import com.qualcomm.robotcore.hardware.SwitchableLight;
  *
  *   Setting the correct WHITE_THRESHOLD value is key to stopping correctly.
  *   This should be set halfway between the bare-tile, and white-line "Alpha" values.
- *   The reflected light value can be read on the screen once the OpMode has been INIT, but before it is STARTED.
+ *   The reflected laight value can be read on the screen once the OpMode has been INIT, but before it is STARTED.
  *   Move the sensor on and off the white line and note the min and max readings.
  *   Edit this code to make WHITE_THRESHOLD halfway between the min and max.
  *

@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -37,22 +38,22 @@ public class Soldiers_Team_Code extends LinearOpMode {
             );
 
             drive.update();
-if (gamepad1.b || gamepad2.b) {
+if (gamepad1.right_trigger > 0.5 || gamepad2.right_trigger > 0.5) {
     Airplane_Launcher.setPosition(0);
 }
-            if (gamepad1.x || gamepad2.x) {
+            if (gamepad1.right_trigger > 0.5 || gamepad2.right_trigger > 0.5) {
                 intake.setPower(1);
             } else {
                 intake.setPower(0);
             }
 
-            if (gamepad2.a) {
+            if (gamepad1.left_bumper || gamepad2.left_bumper) {
                 arm.setPower(1);
             } else{
                     arm.setPower(0);
             }
 
-            if (gamepad2.y) {
+            if (gamepad1.left_trigger > 0.5 || gamepad2.left_trigger > 0.5) {
                 arm.setPower(-1);
             } else{
                 arm.setPower(0);
