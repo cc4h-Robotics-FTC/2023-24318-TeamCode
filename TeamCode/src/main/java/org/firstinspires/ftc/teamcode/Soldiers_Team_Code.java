@@ -13,23 +13,26 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 @TeleOp(group = "drive")
 public class Soldiers_Team_Code extends LinearOpMode {
 
-    private DcMotor intake = null;
-    private DcMotor intake2 = null;
-    private Servo Airplane_Launcher = null;
-    private DcMotor hanger = null;
 
+    private DcMotor arm = null;
+    private Servo pixel = null;
+    private Servo right = null;
+    private Servo left = null;
     @Override
     public void runOpMode() throws InterruptedException {
+
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        hanger = hardwareMap.get(DcMotor.class, "hanger");
+        arm = hardwareMap.get(DcMotor.class, "arm");
+        pixel = hardwareMap.get(Servo.class, "pixel_holder");
+        right = hardwareMap.get(Servo.class, "right_claw");
+        left = hardwareMap.get(Servo.class,"left_claw");
+        pixel.setPosition(0);
+        left.setPosition(1);
+        right.setPosition(0);
 
-        intake = hardwareMap.get(DcMotor.class, "Intake");
-        intake2 = hardwareMap.get(DcMotor.class, "intake2");
-        Airplane_Launcher = hardwareMap.get(Servo.class, "Airplane_Launcher");
-        Airplane_Launcher.setPosition(20);
         waitForStart();
 
         while (!isStopRequested()) {
@@ -41,32 +44,41 @@ public class Soldiers_Team_Code extends LinearOpMode {
                     )
             );
 
-            drive.update();
-            if (gamepad1.b || gamepad2.b) {
-                Airplane_Launcher.setPosition(90);
-            }
-        }
 
 
-            if (gamepad1.x|| gamepad2.x) {
-                intake.setPower(1);
-                intake2.setPower(1);
-            } else {
-                intake.setPower(0);
-                intake2.setPower(0);
-            }
 
-            if (gamepad1.left_bumper || gamepad2.left_bumper) {
-                hanger.setPower(1);
-            } else {
-                hanger.setPower(0);
-            }
+          if (gamepad2.left_bumper) {
+              arm.setPower(0.5);
+          } else {
+              arm.setPower(0);}
 
-            if (gamepad1.left_trigger > 0.5 || gamepad2.left_trigger > 0.5) {
-                hanger.setPower(-1);
-            } else {
-                hanger.setPower(0);
-            }
+          if (gamepad2.right_bumper) {
+              arm.setPower(-0.5);
+          } else {
+              arm.setPower(0);}
+
+          if (gamepad2.x) {
+              pixel.setPosition(0);
+          }
+
+          if (gamepad2.y) {
+              pixel.setPosition(0.5);
+          }
+
+          if (gamepad2.b) {
+              right.setPosition(1);
+              left.setPosition(0);
+          }
+          if (gamepad2.a) {
+              right.setPosition(0);
+              left.setPosition(1);
+              pixel.setPosition(0);
+          }
+
+
+
+
+
 
 
             Pose2d poseEstimate = drive.getPoseEstimate();
@@ -76,5 +88,8 @@ public class Soldiers_Team_Code extends LinearOpMode {
             telemetry.update();
         }
     }
+}
+
+
 
 
