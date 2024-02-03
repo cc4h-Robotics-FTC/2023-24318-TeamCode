@@ -7,33 +7,33 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+                    import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 
-@TeleOp(group = "drive")
-public class Soldiers_Team_Code extends LinearOpMode {
+                    @TeleOp(group = "drive")
+                    public class Soldiers_Team_Code extends LinearOpMode {
 
 
-    private DcMotor arm = null;
-    private Servo pixel = null;
-    private Servo right = null;
-    private Servo left = null;
-    @Override
-    public void runOpMode() throws InterruptedException {
+                        private DcMotor arm = null;
+                        private Servo pixel = null;
+                        private Servo right = null;
+                        private Servo left = null;
+                        @Override
+                        public void runOpMode() throws InterruptedException {
 
-        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+                            SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                            drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         arm = hardwareMap.get(DcMotor.class, "arm");
         pixel = hardwareMap.get(Servo.class, "pixel_holder");
         right = hardwareMap.get(Servo.class, "right_claw");
         left = hardwareMap.get(Servo.class,"left_claw");
         pixel.setPosition(0);
-        left.setPosition(1);
+        left.setPosition(0.4);
         right.setPosition(0);
 
-        waitForStart();
+                            waitForStart();
 
         while (!isStopRequested()) {
             drive.setWeightedDrivePower(
@@ -48,6 +48,10 @@ public class Soldiers_Team_Code extends LinearOpMode {
 
 
           if (gamepad2.left_bumper) {
+              pixel.setPosition(0);
+              right.setPosition(0);
+              left.setPosition(0);
+              sleep(250);
               arm.setPower(0.5);
           } else {
               arm.setPower(0);}
@@ -57,22 +61,17 @@ public class Soldiers_Team_Code extends LinearOpMode {
           } else {
               arm.setPower(0);}
 
+
+          }
           if (gamepad2.x) {
+              right.setPosition(-0.4);
+              left.setPosition(0.4);
               pixel.setPosition(0);
           }
-
-          if (gamepad2.y) {
-              pixel.setPosition(0.5);
-          }
-
-          if (gamepad2.b) {
-              right.setPosition(1);
-              left.setPosition(0);
-          }
-          if (gamepad2.a) {
+          else{
               right.setPosition(0);
-              left.setPosition(1);
-              pixel.setPosition(0);
+              left.setPosition(0);
+              pixel.setPosition(0.5);
           }
 
 
@@ -88,7 +87,7 @@ public class Soldiers_Team_Code extends LinearOpMode {
             telemetry.update();
         }
     }
-}
+
 
 
 

@@ -24,7 +24,7 @@ public class AutoBlue extends LinearOpMode {
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
     private AprilTagProcessor aprilTag;
     private VisionPortal visionPortal;
-    double ANGLE = 40;
+    double ANGLE = 45;
 
 
     @Override
@@ -35,11 +35,14 @@ public class AutoBlue extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         Trajectory trajectory = drive.trajectoryBuilder(new Pose2d())
-                .forward(50)
+                .forward(48)
                 .build();
 
-        Trajectory trajectory2 = drive.trajectoryBuilder(new Pose2d())
+        Trajectory trajectory2 = drive.trajectoryBuilder(trajectory.end())
                 .forward(120)
+                .build();
+        Trajectory trajectory3 = drive.trajectoryBuilder(trajectory2.end())
+                .strafeLeft(12)
                 .build();
 
         initAprilTag();
@@ -47,7 +50,9 @@ public class AutoBlue extends LinearOpMode {
 
         drive.followTrajectory(trajectory);
         drive.turn(Math.toRadians(ANGLE));
+        sleep(2);
         drive.followTrajectory(trajectory2);
+        drive.followTrajectory(trajectory3);
 
 
 
