@@ -35,8 +35,7 @@ import com.qualcomm.robotcore.hardware.Servo;
                             right = hardwareMap.get(Servo.class, "right_claw");
                             left = hardwareMap.get(Servo.class, "left_claw");
                             pixel.setPosition(0.5);
-                            left.setPosition(0.4);
-                            right.setPosition(0);
+                            
 
                             waitForStart();
 
@@ -76,6 +75,23 @@ import com.qualcomm.robotcore.hardware.Servo;
                                 else{
                                     right.setPosition(0);
                                     left.setPosition(0.4);
+                                }
+                                if(gamepad2.right_trigger > 0.5) {
+                                    hr.setPower(1);
+                                    hl.setPower(1);
+                                }
+                                else {
+                                    hr.setPower(0);
+                                    hl.setPower(0);
+                                }
+
+                                if(gamepad2.left_trigger > 0.5) {
+                                    hr.setPower(-1);
+                                    hl.setPower(-1);
+                                }
+                                else {
+                                    hr.setPower(0);
+                                    hl.setPower(0);
                                 }
 
 
