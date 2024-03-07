@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode; //name
 
-import com.acmerobotics.roadrunner.geometry.Pose2d;  //weird stuff
+import com.acmerobotics.roadrunner.geometry.Pose2d;  //weird stuff to describe what servos motors and things like that are
 import com.qualcomm.hardware.broadcom.BroadcomColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -21,13 +21,13 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
                         private Servo pixel = null;
                         private DcMotor intake = null;
                         private Servo airplane = null;
-                        private LED red = null;
+
 
 
                         @Override
                         public void runOpMode() throws InterruptedException {
 
-                            SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap); //drive with mecanum drive
+                            SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap); //drive with Mecanum drive
 
                             drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
@@ -35,7 +35,6 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
                             pixel = hardwareMap.get(Servo.class, "pixel_holder");
                             intake = hardwareMap.get(DcMotor.class,"intake");
                             airplane = hardwareMap.get(Servo.class, "airplane");
-                            red = hardwareMap.get(LED.class, "red");
                             pixel.setPosition(0.5);
                             airplane.setPosition(0.5);
                             
