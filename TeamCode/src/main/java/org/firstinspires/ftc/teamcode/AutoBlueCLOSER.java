@@ -22,15 +22,14 @@ import java.util.List;
 
 @Config
 @Autonomous(group = "Soldiers")
-public class AutoBlue extends LinearOpMode {
+public class AutoBlueCLOSER extends LinearOpMode {
 
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
     private AprilTagProcessor aprilTag;
     private VisionPortal visionPortal;
     public static double ANGLE = -90;
-    public static double Distance = 130;
-
+    public static double Distance = 52;
     private DcMotor arm = null;
     private Servo pixel = null;
 
@@ -49,8 +48,10 @@ public class AutoBlue extends LinearOpMode {
         Trajectory trajectory2 = drive.trajectoryBuilder(trajectory.end())
                 .back(Distance)
                         .build();
-
-        Trajectory trajectory4 = drive.trajectoryBuilder(trajectory2.end())
+        Trajectory trajectory3 = drive.trajectoryBuilder(trajectory.end())
+                .strafeRight(12)
+                .build();
+        Trajectory trajectory4 = drive.trajectoryBuilder(trajectory3.end())
                 .forward(2)
                 .build();
 
@@ -80,7 +81,8 @@ public class AutoBlue extends LinearOpMode {
         arm.setPower(-0.5);
         sleep(2000);
         arm.setPower(0);
-
+        drive.followTrajectory (trajectory4);
+        drive.followTrajectory(trajectory3);
 
         //drive.followTrajectory(trajectory2);
         //drive.followTrajectory(trajectory3);
