@@ -48,7 +48,7 @@ public class AutoBlueCLOSER extends LinearOpMode {
         Trajectory trajectory2 = drive.trajectoryBuilder(trajectory.end())
                 .back(Distance)
                         .build();
-        Trajectory trajectory3 = drive.trajectoryBuilder(trajectory.end())
+        Trajectory trajectory3 = drive.trajectoryBuilder(trajectory2.end())
                 .strafeRight(12)
                 .build();
         Trajectory trajectory4 = drive.trajectoryBuilder(trajectory3.end())
