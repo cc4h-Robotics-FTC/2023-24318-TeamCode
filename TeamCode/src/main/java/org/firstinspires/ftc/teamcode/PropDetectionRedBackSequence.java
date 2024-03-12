@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import android.util.Size;
 
+import com.acmerobotics.dashboard.DashboardCore;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -9,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -23,7 +25,7 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 import java.util.List;
 
 @Config
-@Autonomous(name="Ducks Red Back Sequence", group="Ducks")
+@Autonomous(name="Soldiers Red Back Sequence", group="Soldiers")
 public class PropDetectionRedBackSequence extends LinearOpMode {
 
     public static double STARTING_POSE_X = 12;
@@ -31,40 +33,43 @@ public class PropDetectionRedBackSequence extends LinearOpMode {
     public static double STARTING_POSE_ANGLE = 90;
 
     // prop values
-    public static double LEFT_FORWARD = 24;
-    public static double LEFT_TURN = 90;
-    public static double CENTER_FORWARD = 24;
-    public static double RIGHT_FORWARD = 24;
-    public static double RIGHT_TURN = -90;
+    public static double LEFT_FORWARD = 33;
+    public static double LEFT_TURN = 72;
+    public static double CENTER_FORWARD = 26;
+    public static double CENTER_TURN = -68;
+    public static double RIGHT_FORWARD = 15;
+    public static double RIGHT_TURN = -75;
+    public static double RIGHT_STRAFE = 6;
+    public static double RIGHT_STRAFE_PARK = 27;
+
 
     // park values
     public static double PARK = 24;
-    public static double LEFT_PIXEL_RETREAT = 4; // in
-    public static double RIGHT_PIXEL_RETREAT = 4; // in
+    public static double LEFT_PIXEL_RETREAT = 3; // in
+    public static double RIGHT_PIXEL_RETREAT = 3; // in
+
 
     // movement values
-    public static long PIXEL_SERVO_WAIT_MILLISECS = 2500;
+    public static long PIXEL_SERVO_WAIT_MILLISECS = 750;
     public static long ARM_SERVO_WAIT_MILLISECS = 1000;
 
     DistanceSensor Ldistance;
     DistanceSensor Rdistance;
-    private CRServo claw1 = null;
-    private CRServo claw2 = null;
-    private CRServo claw3 = null;
-    private CRServo claw4 = null;
-    private DcMotor lift = null;
+    private DcMotor arm = null;
+    private Servo pixel = null;
+    private DcMotor intake = null;
 
     private static final boolean USE_WEBCAM = true; // true for webcam, false for phone camera
     //private AprilTagProcessor aprilTag;
     // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
     // this is only used for Android Studio when using models in Assets.
-    private static final String TFOD_MODEL_ASSET = "blockprop.tflite";
+    private static final String TFOD_MODEL_ASSET = "blockprop-obstructed.tflite";
     // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
     // this is used when uploading models directly to the RC using the model upload interface.
     private static final String TFOD_MODEL_FILE = "/sdcard/FIRST/tflitemodels/myCustomModel.tflite";
     // Define the labels recognized in the model for TFOD (must be in training order!)
     private static final String[] LABELS = {
-            "duckprop",
+            "blockprop",
     };
 
     // Camera resolution
@@ -103,19 +108,18 @@ public class PropDetectionRedBackSequence extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+        // TODO:
+        // make the autonomous for all three other positions. (blue far , near and red far)
+
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        Ldistance = hardwareMap.get(DistanceSensor.class, "Lsensor");
-        Rdistance = hardwareMap.get(DistanceSensor.class, "Rsensor");
 
-        claw1 = hardwareMap.get(CRServo.class, "claw1");
-        claw2 = hardwareMap.get(CRServo.class, "claw2");
-        claw2.setDirection(CRServo.Direction.REVERSE);
-        claw3 = hardwareMap.get(CRServo.class, "claw3");
-        claw4 = hardwareMap.get(CRServo.class, "claw4");
-        claw4.setDirection(CRServo.Direction.REVERSE);
-        lift = hardwareMap.get(DcMotor.class, "lift");
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
+        arm = hardwareMap.get(DcMotor.class, "arm");
+        intake = hardwareMap.get(DcMotor.class, "intake");
+        pixel = hardwareMap.get(Servo.class, "pixel_holder");
+        pixel.setPosition(0);
+
 
         initDoubleVision();
         visionPortal.setProcessorEnabled(aprilTag, false);
@@ -127,16 +131,17 @@ public class PropDetectionRedBackSequence extends LinearOpMode {
         drive.setPoseEstimate(startingPose);
 
         TrajectorySequence leftProp = drive.trajectorySequenceBuilder(startingPose)
-                .forward(LEFT_FORWARD)
+                .forward(LEFT_FORWARD-6)
                 .turn(Math.toRadians(LEFT_TURN))
                 .forward(LEFT_PIXEL_RETREAT)
+//                .back(LEFT_PIXEL_RETREAT)
                 .build();
 
         TrajectorySequence leftPark = drive.trajectorySequenceBuilder(leftProp.end())
                 .back(LEFT_PIXEL_RETREAT)
-                .turn(Math.toRadians(-LEFT_TURN))
+//                .turn(Math.toRadians(-LEFT_TURN))
                 .back(LEFT_FORWARD)
-                .strafeRight(PARK)
+//                .strafeRight(RIGHT_STRAFE_PARK/2.5)
                 .build();
 
         TrajectorySequence centerProp = drive.trajectorySequenceBuilder(startingPose)
@@ -144,22 +149,31 @@ public class PropDetectionRedBackSequence extends LinearOpMode {
                 .build();
 
         TrajectorySequence centerPark = drive.trajectorySequenceBuilder(centerProp.end())
-                .back(CENTER_FORWARD)
-                .strafeRight(PARK)
+                .back(RIGHT_PIXEL_RETREAT)
+                .strafeRight(RIGHT_STRAFE_PARK/1.1)
+                .turn(Math.toRadians(-CENTER_TURN))
+                .back(RIGHT_STRAFE_PARK/13.5)
                 .build();
 
 
         TrajectorySequence rightProp = drive.trajectorySequenceBuilder(startingPose)
+                .strafeRight(RIGHT_STRAFE)
+                //.turn(Math.toRadians(RIGHT_TURN))
                 .forward(RIGHT_FORWARD)
-                .turn(Math.toRadians(RIGHT_TURN))
                 .build();
 
         TrajectorySequence rightPark = drive.trajectorySequenceBuilder(rightProp.end())
                 .back(RIGHT_PIXEL_RETREAT)
+                .strafeRight(RIGHT_STRAFE_PARK/2)
                 .turn(Math.toRadians(-RIGHT_TURN))
-                .strafeRight(RIGHT_PIXEL_RETREAT)
-                .back(RIGHT_FORWARD)
-                .strafeRight(PARK)
+                .strafeRight(RIGHT_FORWARD/7.15)
+                .build();
+
+        TrajectorySequence rightPark_worked = drive.trajectorySequenceBuilder(rightProp.end())
+                .back(RIGHT_PIXEL_RETREAT)
+                .strafeRight(RIGHT_STRAFE_PARK/2)
+                .turn(Math.toRadians(-RIGHT_TURN))
+                .strafeRight(RIGHT_FORWARD/2.3)
                 .build();
 
         waitForStart();
@@ -222,29 +236,36 @@ public class PropDetectionRedBackSequence extends LinearOpMode {
         }
 
         // Deposit the purple pixel
-        claw1.setPower(1.0);
-        claw2.setPower(1.0);
-        sleep(PIXEL_SERVO_WAIT_MILLISECS );
-        claw1.setPower(0.0);
-        claw2.setPower(0.0);
+        intake.setPower(-0.25);
 
+        sleep(PIXEL_SERVO_WAIT_MILLISECS );
+        intake.setPower(0);
+
+
+
+// TODO: Move robot to backdrop, place pixel
+
+        // park robot in backstage
         if ( spikeMark == 1 ) { // Left
             drive.followTrajectorySequence(leftPark);
         } else if ( spikeMark == 2 ) { // Center
             drive.followTrajectorySequence(centerPark);
         } else if ( spikeMark == 3 ) { // Right
             drive.followTrajectorySequence(rightPark);
+
         }
 
-        claw3.setPower(-1.0);
-        claw4.setPower(-1.0);
-        sleep(PIXEL_SERVO_WAIT_MILLISECS);
-        claw3.setPower(0.0);
-        claw4.setPower(0.0);
+        arm.setPower(1);
+        sleep(750);
+        arm.setPower(0);
+        sleep(1000);
+        pixel.setPosition(0.5);
+        sleep(1000);
+        arm.setPower(-1);
+        sleep(800);
+        arm.setPower(0);
 
-        lift.setPower(-0.5);
-        sleep(ARM_SERVO_WAIT_MILLISECS);
-        lift.setPower(0.0);
+       //
     } // end runOpMode()
 
     /**

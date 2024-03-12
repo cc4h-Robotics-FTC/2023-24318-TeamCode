@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
                         private Servo pixel = null;
                         private DcMotor intake = null;
                         private Servo airplane = null;
-
+                        private Servo gloves = null;
 
 
                         @Override
@@ -33,12 +33,12 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
                             arm = hardwareMap.get(DcMotor.class, "arm");  //explains variables
                             pixel = hardwareMap.get(Servo.class, "pixel_holder");
-                            intake = hardwareMap.get(DcMotor.class,"intake");
+                            intake = hardwareMap.get(DcMotor.class, "intake");
                             airplane = hardwareMap.get(Servo.class, "airplane");
+                            gloves = hardwareMap.get(Servo.class, "gloves");
                             pixel.setPosition(0.5);
                             airplane.setPosition(0.5);
-                            
-                            
+
 
                             waitForStart();
 
@@ -52,18 +52,66 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
                                 );
 
 
-                                if (gamepad2.left_bumper) { //arm up, servo on box close, intake spin
+                                if (gamepad2.right_trigger > 0.5) { //arm up, servo on box close, intake spin
                                     arm.setPower(0.5);
-                                   pixel.setPosition(0);
+                                    pixel.setPosition(0);
                                     intake.setPower(1);
                                 } else {  //arm stop, intake stop
                                     arm.setPower(0);
                                     intake.setPower(0);
                                 }
 
-                                if (gamepad2.right_bumper) { // arm down, intake opposite direction
+                                while (gamepad1.right_trigger > 0.5)
+
+                                    gloves.setPosition(0.5);
+                                sleep(500);
+                                gloves.setPosition(1.5);
+                                sleep(500);
+                                gloves.setPosition(0.5);
+                                sleep(500);
+                                gloves.setPosition(1.5);
+                                sleep(500);
+                                gloves.setPosition(0.5);
+                                sleep(500);
+                                gloves.setPosition(1.5);
+                                sleep(500);
+                                gloves.setPosition(0.5);
+                                sleep(500);
+                                gloves.setPosition(1.5);
+                                sleep(500);
+                                gloves.setPosition(0.5);
+                                sleep(500);
+                                gloves.setPosition(1.5);
+                                sleep(500);
+                                gloves.setPosition(0.5);
+                                sleep(500);
+                                gloves.setPosition(1.5);
+                                sleep(500);
+                                gloves.setPosition(0.5);
+                                sleep(500);
+                                gloves.setPosition(1.5);
+                                sleep(500);
+                                gloves.setPosition(0.5);
+                                sleep(500);
+                                gloves.setPosition(1.5);
+                                sleep(500);
+                                gloves.setPosition(0.5);
+                                sleep(500);
+                                gloves.setPosition(1.5);
+                                sleep(500);
+                                gloves.setPosition(0.5);
+                                sleep(500);
+                                gloves.setPosition(1.5);
+                                sleep(500);
+                                gloves.setPosition(0.5);
+                                sleep(500);
+                                gloves.setPosition(1.5);
+                                sleep(500);
+
+
+                                if (gamepad2.left_trigger > 0.5) { // arm down, intake opposite direction
                                     arm.setPower(-0.5);
-                                    intake.setPower(-0.5                );
+                                    intake.setPower(-0.5);
                                 } else {   //arm stop, intake stop
                                     arm.setPower(0);
                                     intake.setPower(0);
@@ -72,23 +120,18 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
                                 if (gamepad2.y) {
                                     pixel.setPosition(0.5);
                                 }
-                                if(gamepad2.x)  {
+                                if (gamepad2.x) {
                                     pixel.setPosition(0);
                                 }
                                 if (gamepad2.b) {
                                     airplane.setPosition(1.5);
                                 }
 
-                                if(gamepad2.a) {  //intake on
-                                intake.setPower(1);
-                                }
-                                else{  //intake off
+                                if (gamepad2.a) {  //intake on
+                                    intake.setPower(1);
+                                } else {  //intake off
                                     intake.setPower(0);
                                 }
-
-
-
-
 
 
                                 Pose2d poseEstimate = drive.getPoseEstimate();  //send us data on these things: x y and direction.
