@@ -75,8 +75,8 @@ public class PropDetectionBlueBackSequence extends LinearOpMode {
     };
 
     // Camera resolution
-    private static final int CAMHORIZRES = 640;
-    private static final int CAMVERTRES = 480;
+    private static final int CAMHORIZRES = 480;
+    private static final int CAMVERTRES = 640;
 
     // Duck Spike Mark Detection Thresholds
     private static final int  LEFTSPIKETHRESHOLD = 200;
