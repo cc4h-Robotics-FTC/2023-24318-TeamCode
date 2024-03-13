@@ -33,14 +33,18 @@ public class PropDetectionRedBackSequence extends LinearOpMode {
     public static double STARTING_POSE_ANGLE = 90;
 
     // prop values
-    public static double LEFT_FORWARD = 33;
+    public static double LEFT_FORWARD = 35;
     public static double LEFT_TURN = 72;
+    public static double LEFT_STRAFE = 12;
     public static double CENTER_FORWARD = 26;
     public static double CENTER_TURN = -68;
     public static double RIGHT_FORWARD = 15;
     public static double RIGHT_TURN = -75;
     public static double RIGHT_STRAFE = 6;
     public static double RIGHT_STRAFE_PARK = 27;
+    public static double RIGHT_PARK = 12;
+    public static double CENTER_PARK = 14;
+    public static double LEFT_PARK = 18;
 
 
     // park values
@@ -131,7 +135,7 @@ public class PropDetectionRedBackSequence extends LinearOpMode {
         drive.setPoseEstimate(startingPose);
 
         TrajectorySequence leftProp = drive.trajectorySequenceBuilder(startingPose)
-                .forward(LEFT_FORWARD-6)
+                .forward(LEFT_FORWARD-9)
                 .turn(Math.toRadians(LEFT_TURN))
                 .forward(LEFT_PIXEL_RETREAT)
 //                .back(LEFT_PIXEL_RETREAT)
@@ -141,6 +145,7 @@ public class PropDetectionRedBackSequence extends LinearOpMode {
                 .back(LEFT_PIXEL_RETREAT)
 //                .turn(Math.toRadians(-LEFT_TURN))
                 .back(LEFT_FORWARD)
+               // .strafeRight(LEFT_STRAFE)
 //                .strafeRight(RIGHT_STRAFE_PARK/2.5)
                 .build();
 
@@ -166,7 +171,7 @@ public class PropDetectionRedBackSequence extends LinearOpMode {
                 .back(RIGHT_PIXEL_RETREAT)
                 .strafeRight(RIGHT_STRAFE_PARK/2)
                 .turn(Math.toRadians(-RIGHT_TURN))
-                .strafeRight(RIGHT_FORWARD/7.15)
+                .strafeRight(RIGHT_FORWARD/9)
                 .build();
 
         TrajectorySequence rightPark_worked = drive.trajectorySequenceBuilder(rightProp.end())
@@ -256,7 +261,7 @@ public class PropDetectionRedBackSequence extends LinearOpMode {
         }
 
         arm.setPower(1);
-        sleep(750);
+        sleep(800);
         arm.setPower(0);
         sleep(1000);
         pixel.setPosition(0.5);
@@ -265,6 +270,9 @@ public class PropDetectionRedBackSequence extends LinearOpMode {
         sleep(800);
         arm.setPower(0);
 
+
+
+        drive.followTrajectory(LEFT_PARK);
        //
     } // end runOpMode()
 
