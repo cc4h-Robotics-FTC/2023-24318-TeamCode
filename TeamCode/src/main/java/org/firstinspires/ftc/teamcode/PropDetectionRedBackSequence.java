@@ -181,7 +181,19 @@ public class PropDetectionRedBackSequence extends LinearOpMode {
                 .turn(Math.toRadians(-RIGHT_TURN))
                 .strafeRight(RIGHT_FORWARD/2.3)
                 .build();
-       // TrajectorySequenceBuilder
+
+        TrajectorySequence RIGHTPARK = drive.trajectorySequenceBuilder(rightPark.end())
+                        .strafeLeft(RIGHT_PARK)
+                                .build();
+
+        TrajectorySequence LEFTPARK = drive.trajectorySequenceBuilder(leftPark.end())
+                .strafeLeft(LEFT_PARK)
+                .build();
+
+        TrajectorySequence CENTERPARK = drive.trajectorySequenceBuilder(centerPark.end())
+                .strafeLeft(CENTER_PARK)
+                .build();
+
 
         waitForStart();
 
@@ -271,6 +283,18 @@ public class PropDetectionRedBackSequence extends LinearOpMode {
         arm.setPower(-1);
         sleep(800);
         arm.setPower(0);
+
+        if (spikeMark == 1) {
+            drive.followTrajectorySequence(LEFTPARK);
+        }
+
+        else if (spikeMark == 2) {
+            drive.followTrajectorySequence(CENTERPARK);
+        }
+
+        else if (spikeMark == 3) {
+            drive.followTrajectorySequence(RIGHTPARK);
+        }
 
 
 
