@@ -42,7 +42,7 @@ public class PropDetectionRedBackSequence extends LinearOpMode {
     public static double RIGHT_FORWARD = 15;
     public static double RIGHT_TURN = -75;
     public static double RIGHT_STRAFE = 6;
-    public static double RIGHT_STRAFE_PARK = 27;
+    public static double RIGHT_STRAFE_PARK = 30;
     public static double RIGHT_PARK = 12;
     public static double CENTER_PARK = 14;
     public static double LEFT_PARK = 18;
@@ -169,10 +169,10 @@ public class PropDetectionRedBackSequence extends LinearOpMode {
                 .build();
 
         TrajectorySequence rightPark = drive.trajectorySequenceBuilder(rightProp.end())
-                .back(RIGHT_PIXEL_RETREAT)
-                .strafeRight(RIGHT_STRAFE_PARK/2)
+                .back(RIGHT_PIXEL_RETREAT * 1)
+                .strafeRight(RIGHT_STRAFE_PARK/1.85)
                 .turn(Math.toRadians(-RIGHT_TURN))
-                .strafeRight(RIGHT_FORWARD/9)
+               // .strafeRight(RIGHT_FORWARD/12)
                 .build();
 
         TrajectorySequence rightPark_worked = drive.trajectorySequenceBuilder(rightProp.end())
