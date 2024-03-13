@@ -17,6 +17,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -180,6 +181,7 @@ public class PropDetectionRedBackSequence extends LinearOpMode {
                 .turn(Math.toRadians(-RIGHT_TURN))
                 .strafeRight(RIGHT_FORWARD/2.3)
                 .build();
+       // TrajectorySequenceBuilder
 
         waitForStart();
 
@@ -272,7 +274,6 @@ public class PropDetectionRedBackSequence extends LinearOpMode {
 
 
 
-        drive.followTrajectory(LEFT_PARK);
        //
     } // end runOpMode()
 
