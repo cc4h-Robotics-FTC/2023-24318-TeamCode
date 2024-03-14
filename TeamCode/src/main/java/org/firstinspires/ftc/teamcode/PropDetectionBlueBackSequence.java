@@ -32,12 +32,12 @@ public class PropDetectionBlueBackSequence extends LinearOpMode {
 
     // prop values
     public static double RIGHT_FORWARD = 35;
-    public static double RIGHT_TURN = 72;
+    public static double RIGHT_TURN = -72;
     public static double RIGHT_STRAFE = 12;
     public static double CENTER_FORWARD = 26;
-    public static double CENTER_TURN = -68;
+    public static double CENTER_TURN = 68;
     public static double LEFT_FORWARD = 15;
-    public static double LEFT_TURN = -75;
+    public static double LEFT_TURN = 75;
     public static double LEFT_STRAFE = 6;
     public static double LEFT_STRAFE_PARK = 27;
     public static double LEFT_PARK = 12;
@@ -133,16 +133,16 @@ public class PropDetectionBlueBackSequence extends LinearOpMode {
         drive.setPoseEstimate(startingPose);
 
         TrajectorySequence leftProp = drive.trajectorySequenceBuilder(startingPose)
-                .strafeRight(LEFT_STRAFE)
+                .strafeLeft(LEFT_STRAFE)
                 //.turn(Math.toRadians(RIGHT_TURN))
                 .forward(LEFT_FORWARD)
                 .build();
 
         TrajectorySequence leftPark = drive.trajectorySequenceBuilder(leftProp.end())
                 .back(LEFT_PIXEL_RETREAT)
-                .strafeRight(LEFT_STRAFE_PARK/2)
+                .strafeLeft(LEFT_STRAFE_PARK/2)
                 .turn(Math.toRadians(-LEFT_TURN))
-                .strafeRight(LEFT_FORWARD/9)
+                .strafeLeft(LEFT_FORWARD/9)
                 .build();
 
         TrajectorySequence centerProp = drive.trajectorySequenceBuilder(startingPose)
@@ -151,7 +151,7 @@ public class PropDetectionBlueBackSequence extends LinearOpMode {
 
         TrajectorySequence centerPark = drive.trajectorySequenceBuilder(centerProp.end())
                 .back(LEFT_PIXEL_RETREAT)
-                .strafeRight(LEFT_STRAFE_PARK/1.1)
+                .strafeLeft(LEFT_STRAFE_PARK/1.1)
                 .turn(Math.toRadians(-CENTER_TURN))
                 .back(LEFT_STRAFE_PARK/13.5)
                 .build();
