@@ -75,8 +75,8 @@ public class PropDetectionBlueBackSequence extends LinearOpMode {
     };
 
     // Camera resolution
-    private static final int CAMHORIZRES = 480;
-    private static final int CAMVERTRES = 640;
+    private static final int CAMHORIZRES = 640;
+    private static final int CAMVERTRES = 480;
 
     // Duck Spike Mark Detection Thresholds
     private static final int  LEFTSPIKETHRESHOLD = 200;
@@ -142,7 +142,7 @@ public class PropDetectionBlueBackSequence extends LinearOpMode {
                 .back(LEFT_PIXEL_RETREAT)
                 .strafeLeft(LEFT_STRAFE_PARK/2)
                 .turn(Math.toRadians(-LEFT_TURN))
-                .strafeLeft(LEFT_FORWARD/9)
+                .strafeLeft(LEFT_FORWARD/4 )
                 .build();
 
         TrajectorySequence centerProp = drive.trajectorySequenceBuilder(startingPose)
@@ -151,7 +151,7 @@ public class PropDetectionBlueBackSequence extends LinearOpMode {
 
         TrajectorySequence centerPark = drive.trajectorySequenceBuilder(centerProp.end())
                 .back(LEFT_PIXEL_RETREAT)
-                .strafeLeft(LEFT_STRAFE_PARK/1.1)
+                .strafeLeft(LEFT_STRAFE_PARK/0.9)
                 .turn(Math.toRadians(-CENTER_TURN))
                 .back(LEFT_STRAFE_PARK/13.5)
                 .build();
